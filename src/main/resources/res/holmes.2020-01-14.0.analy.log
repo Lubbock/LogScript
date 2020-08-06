@@ -1,0 +1,1 @@
+2020-01-14 14:07:44.359 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/]}" onto public org.springframework.web.servlet.ModelAndView com.idss.Application.index()
