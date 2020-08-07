@@ -14,6 +14,7 @@ class SLogList {
     }
 
     public static void collect(boolean b, String line,LogPlugin lp) {
+        int sort = 1;
         if (b && threadLocalLog.get().hasElement()) {
             List<SLog> sLogs = threadLocalLogs.get();
             SLog temp = threadLocalLog.get();
@@ -22,6 +23,7 @@ class SLogList {
                 sLogs.add(temp);
             }
             SLog item = new SLog();
+            item.setSort(sort++);
             threadLocalLog.set(item);
         }
         threadLocalLog.get().addLine(line);

@@ -12,6 +12,8 @@ class SLog {
 
     private SimHashService simHash = null;
 
+    private int sort = 0;
+
     public void addLine(String line) {
         lines.add(line);
     }

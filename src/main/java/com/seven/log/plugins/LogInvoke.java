@@ -5,10 +5,8 @@ import com.google.common.collect.Multimap;
 import com.seven.log.calc.SimHashService;
 
 import java.io.*;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class LogInvoke {
     public static String invoke(String fp) throws Exception {
@@ -31,7 +29,8 @@ public class LogInvoke {
                 FileOutputStream fos = new FileOutputStream(fp);
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(fos))
         ) {
-            for (SLog item : sLogs) {
+            List<SLog> items = sLogs.stream().sorted(Comparator.comparingInt(SLog::getSort)).collect(Collectors.toList());
+            for (SLog item : items) {
                 List<String> lines = item.getLines();
                 for (String line : lines) {
                     bufferedWriter.write(line);

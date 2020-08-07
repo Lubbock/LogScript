@@ -1,8 +1,11 @@
 package com.seven.log.plugins;
 
+import com.seven.log.calc.SimHashService;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class DDMPlugin implements LogPlugin {
@@ -10,7 +13,7 @@ public class DDMPlugin implements LogPlugin {
     private final String IP_FILTER = "172.16.0.135";
 
     //重复文本去重
-    private Set<String> unique = new HashSet<>();
+    private List<String> simhashs = new ArrayList<>();
 
 
     @Override
@@ -21,10 +24,19 @@ public class DDMPlugin implements LogPlugin {
     @Override
     public boolean isSaveLog(SLog log) {
         String strSimHash = log.getSimHash().strSimHash;
-        if (unique.contains(strSimHash)) {
+        boolean isTextCopy = false;
+        for (String simhash : simhashs) {
+            int distance = SimHashService.getDistance(strSimHash, simhash);
+            if (distance < 10) {
+                // 文本距离小于10 认为是相文本
+                isTextCopy = true;
+                break;
+            }
+        }
+        if (isTextCopy) {
             return false;
         }
-        unique.add(strSimHash);
+        simhashs.add(strSimHash);
         String s = log.getLines().get(0);
         if (StringUtils.startsWith(s, "notifySql")) {
             return true;
