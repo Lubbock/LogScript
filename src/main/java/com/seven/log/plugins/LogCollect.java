@@ -8,14 +8,14 @@ public class LogCollect {
 
     static Pattern pattern = Pattern.compile("^(\\d{4}-\\d{2}-\\d{2})");
 
-    public static String collect(String str) {
+    public static String collect(String str, LogPlugin lp) {
         Matcher matcher = pattern.matcher(str);
         boolean b = matcher.find();
-        SLogList.collect(b, str);
+        SLogList.collect(b, str, lp);
         return str;
     }
 
-    public static List<SLog> endCollect() {
-        return SLogList.endCollect();
+    public static List<SLog> endCollect(LogPlugin lp) {
+        return SLogList.endCollect(lp);
     }
 }

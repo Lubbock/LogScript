@@ -2,7 +2,6 @@ package com.seven.log.plugins;
 
 import com.seven.log.calc.SimHashService;
 import lombok.Data;
-import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,17 +20,27 @@ class SLog {
         return lines.size() > 0;
     }
 
-    public void calcSimHash() {
+    public boolean calcSimHash(LogPlugin lp) {
         StringBuilder sb = new StringBuilder();
         int i = 0;
+        boolean isAccept = false;
         for (String line : lines) {
             if (i == 0) {
-                line = StringUtils.substringAfter(line,"INFO");
+                isAccept = lp.isAcceptLog(line);
+                if (!isAccept) {
+                    break;
+                }
+                line = lp.transform(line);
                 sb.append("\n");
             }
             i++;
             sb.append(line);
         }
+        if (!isAccept) {
+            return false;
+        }
+        lines.set(0, lp.transform(lines.get(0)));
         simHash = new SimHashService(sb.toString(), 64);
+        return true;
     }
 }
