@@ -64,8 +64,10 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.hive/hive-shims
     compile group: 'org.apache.hive', name: 'hive-shims', version: '1.1.1'
     compile group: 'redis.clients', name: 'jedis', version: '2.10.2'
-    annotationProcessor "org.projectlombok:lombok:1.18.2"
     compile 'com.hankcs:hanlp:portable-1.7.5'
+// https://mvnrepository.com/artifact/commons-net/commons-net
+    compile group: 'commons-net', name: 'commons-net', version: '3.1'
+
 
 }
 

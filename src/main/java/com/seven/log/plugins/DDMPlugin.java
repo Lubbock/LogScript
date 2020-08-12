@@ -27,7 +27,7 @@ public class DDMPlugin implements LogPlugin {
         boolean isTextCopy = false;
         for (String simhash : simhashs) {
             int distance = SimHashService.getDistance(strSimHash, simhash);
-            if (distance < 10) {
+            if (distance < 8) {
                 // 文本距离小于10 认为是相文本
                 isTextCopy = true;
                 break;
