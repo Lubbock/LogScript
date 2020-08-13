@@ -1,11 +1,13 @@
-package com.seven.log.utils.clients;
+package com.seven.log.utils.clients.impl;
+
+import com.seven.log.utils.clients.Client;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class FileClient implements Client{
+public class FileClient implements Client {
     @Override
     public InputStream get(String fp) throws Exception {
         return new FileInputStream(fp);

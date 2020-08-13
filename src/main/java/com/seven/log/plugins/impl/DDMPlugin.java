@@ -1,12 +1,11 @@
-package com.seven.log.plugins;
+package com.seven.log.plugins.impl;
 
 import com.seven.log.calc.SimHashService;
+import com.seven.log.plugins.LogPlugin;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class DDMPlugin implements LogPlugin {
 

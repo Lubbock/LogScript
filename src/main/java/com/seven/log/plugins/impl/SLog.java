@@ -1,13 +1,14 @@
-package com.seven.log.plugins;
+package com.seven.log.plugins.impl;
 
 import com.seven.log.calc.SimHashService;
+import com.seven.log.plugins.LogPlugin;
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-class SLog {
+public class SLog {
     private List<String> lines = new ArrayList<>(20);
 
     private SimHashService simHash = null;

@@ -1,10 +1,10 @@
-package com.seven.log.plugins;
+package com.seven.log.plugins.impl;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.seven.log.calc.SimHashService;
+import com.seven.log.plugins.LogPlugin;
 import com.seven.log.utils.clients.Client;
-import com.seven.log.utils.clients.ClientCtx;
 
 import java.io.*;
 import java.util.*;

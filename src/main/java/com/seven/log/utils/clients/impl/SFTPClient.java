@@ -1,6 +1,7 @@
-package com.seven.log.utils.clients;
+package com.seven.log.utils.clients.impl;
 
 import com.jcraft.jsch.*;
+import com.seven.log.utils.clients.Client;
 
 import java.io.InputStream;
 import java.io.OutputStream;

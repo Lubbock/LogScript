@@ -1,4 +1,6 @@
-package com.seven.log.plugins;
+package com.seven.log.plugins.impl;
+
+import com.seven.log.plugins.LogPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,7 @@ class SLogList {
         threadLocalLog.set(new SLog());
     }
 
-    public static void collect(boolean b, String line,LogPlugin lp) {
+    public static void collect(boolean b, String line, LogPlugin lp) {
         int sort = 1;
         if (b && threadLocalLog.get().hasElement()) {
             List<SLog> sLogs = threadLocalLogs.get();

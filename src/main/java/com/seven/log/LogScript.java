@@ -1,10 +1,10 @@
 package com.seven.log;
 
 
-import com.seven.log.plugins.LogInvoke;
+import com.seven.log.plugins.impl.LogInvoke;
 import com.seven.log.utils.clients.*;
-
-import java.io.InputStream;
+import com.seven.log.utils.clients.impl.ClientCtx;
+import com.seven.log.utils.clients.impl.ProtoEnum;
 
 public class LogScript {
     public static void main(String[] args) throws Exception {

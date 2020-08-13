@@ -1,5 +1,6 @@
-package com.seven.log.utils.clients;
+package com.seven.log.utils.clients.impl;
 
+import com.seven.log.utils.clients.Client;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.InputStream;

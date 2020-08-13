@@ -1,4 +1,4 @@
-package com.seven.log.utils.clients;
+package com.seven.log.utils.clients.impl;
 
 public enum ProtoEnum {
     SFTP, FTP, FILE

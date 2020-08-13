@@ -1,4 +1,6 @@
-package com.seven.log.plugins;
+package com.seven.log.plugins.impl;
+
+import com.seven.log.plugins.LogPlugin;
 
 import java.util.List;
 import java.util.regex.Matcher;

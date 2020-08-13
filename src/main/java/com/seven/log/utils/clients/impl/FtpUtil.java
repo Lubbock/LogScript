@@ -1,4 +1,4 @@
-package com.seven.log.utils.clients;
+package com.seven.log.utils.clients.impl;
 
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
