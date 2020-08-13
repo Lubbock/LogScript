@@ -63,7 +63,7 @@ public class LogInvoke {
             }
         }
         try {
-            saveAnalyResult("D:\\code\\LogScript\\src\\main\\resources\\res\\holmes.2020-01-14.0.analy.log", mslogs.values());
+            saveAnalyResult("D:\\code\\LogScript\\logbase\\src\\main\\resources\\holmes.2020-01-14.0.analy.log", mslogs.values());
         } catch (Exception e) {
             e.printStackTrace();
         }

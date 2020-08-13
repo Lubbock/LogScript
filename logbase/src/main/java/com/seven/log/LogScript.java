@@ -11,6 +11,6 @@ public class LogScript {
         ClientCtx clientCtx = new ClientCtx();
         clientCtx.protoEnum(ProtoEnum.FILE);
         Client client = ClientFactory.createClient(clientCtx);
-        LogInvoke.invoke(client, "D:\\code\\LogScript\\src\\main\\resources\\res\\holmes.2020-01-14.0.log");
+        LogInvoke.invoke(client, "D:\\code\\LogScript\\logbase\\src\\main\\resources\\holmes.2020-01-14.0.log");
     }
 }

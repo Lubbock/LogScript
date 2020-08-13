@@ -1,0 +1,2 @@
+ INFO  o.s.jmx172.16.0.135.export.annotation.AnnotationMBeanExporter - notifySql:select * from student
+
