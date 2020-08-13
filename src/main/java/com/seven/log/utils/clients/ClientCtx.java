@@ -16,4 +16,6 @@ public class ClientCtx {
     private Integer port;
 
     private String charset;
+
+    private ProtoEnum protoEnum;
 }

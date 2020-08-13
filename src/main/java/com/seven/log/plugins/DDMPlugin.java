@@ -18,7 +18,7 @@ public class DDMPlugin implements LogPlugin {
 
     @Override
     public boolean isAcceptLog(String line) {
-        return StringUtils.indexOf(line, IP_FILTER) > 0;
+        return StringUtils.indexOf(line, IP_FILTER) > -1;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class DDMPlugin implements LogPlugin {
         }
         simhashs.add(strSimHash);
         String s = log.getLines().get(0);
-        if (StringUtils.startsWith(s, "notifySql")) {
+        if (StringUtils.contains(s, "notifySql")) {
             return true;
         }
         return false;

@@ -3,21 +3,26 @@ package com.seven.log.plugins;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.seven.log.calc.SimHashService;
+import com.seven.log.utils.clients.Client;
+import com.seven.log.utils.clients.ClientCtx;
 
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class LogInvoke {
-    public static String invoke(String fp) throws Exception {
+    public static String invoke(Client client, String fp) throws Exception {
         DDMPlugin ddmPlugin = new DDMPlugin();
-        try (FileInputStream inputStream = new FileInputStream(fp);
-             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        ) {
+        try (
+                InputStream inputStream = client.get(fp);
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        ){
             String str = null;
             while ((str = bufferedReader.readLine()) != null) {
                 LogCollect.collect(str, ddmPlugin);
             }
+        }finally {
+            client.close();
         }
         List<SLog> sLogs = LogCollect.endCollect(ddmPlugin);
         analSlog(sLogs, ddmPlugin);
@@ -58,7 +63,7 @@ public class LogInvoke {
             }
         }
         try {
-            saveAnalyResult("E:\\github\\LogScript\\temp\\application.analy.log", mslogs.values());
+            saveAnalyResult("D:\\code\\LogScript\\src\\main\\resources\\res\\holmes.2020-01-14.0.analy.log", mslogs.values());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,9 +84,5 @@ public class LogInvoke {
             }
         }
         return false;
-    }
-
-    public static void main(String[] args) throws Exception {
-        invoke("E:\\github\\LogScript\\temp\\application.log");
     }
 }
