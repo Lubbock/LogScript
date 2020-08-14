@@ -1,24 +1,86 @@
+buildscript {
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("org.anarres.gradle:gradle-velocity-plugin:1.0.0")
+        //classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE'
+    }
+}
 plugins {
-    id 'org.springframework.boot' version '2.3.2.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
+    id 'maven-publish'
+}
+
+repositories {
+    mavenLocal()
+    maven { url = 'http://maven.aliyun.com/nexus/content/groups/public' }
+    maven { url = 'http://repo.maven.apache.org/maven2' }
+}
+
+apply plugin: 'application'
+mainClassName = 'com.lame.U11App'
+configurations.all {
+    exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+
+}
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web:2.3.0.RELEASE'
+    compile 'org.apache.poi:poi:4.0.1'
+    compile 'org.apache.poi:poi-ooxml:4.0.1'
+    compile 'org.apache.poi:poi-ooxml-schemas:4.0.1'
+    compile 'org.apache.poi:ooxml-schemas:1.3'
+    compile 'org.apache.poi:poi-scratchpad:4.0.1'
+    compile 'org.apache.pdfbox:pdfbox:2.0.12'
+    compile 'org.apache.pdfbox:jbig2-imageio:3.0.2'
+    compile 'com.github.jai-imageio:jai-imageio-core:1.3.1'
+    compile 'com.github.jai-imageio:jai-imageio-jpeg2000:1.3.0'
+    compile 'org.apache.commons:commons-lang3:3.3.2'
+    compile 'org.apdplat:word:1.3'
+//    compile 'log4j:log4j:1.2.16'
+    compile 'org.projectlombok:lombok:1.18.2'
+    compile 'com.huaban:jieba-analysis:1.0.2'
+    compile 'com.itextpdf:itextpdf:5.5.11'
+    annotationProcessor 'org.projectlombok:lombok:1.18.2'
+    compile 'com.itextpdf:itext-asian:5.2.0'
+    compile 'commons-io:commons-io:2.4'
+    compile 'org.docx4j:docx4j:6.1.2'
+    compile 'com.alibaba:fastjson:1.2.70'
+    testCompile 'org.springframework.boot:spring-boot-starter-test:2.3.0.RELEASE'
+    testCompile 'junit:junit:4.13-beta-3'
+    compile 'com.google.zxing:core:3.3.0'
+    compile 'org.codelibs:jcifs:2.1.9'
 }
 
 group = 'com.ayer'
-version = '0.0.1'
+version = '1.0.1'
+description = 'logweb'
 sourceCompatibility = '1.8'
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+        }
     }
 }
 
-test {
-    useJUnitPlatform()
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+
+}
+
+//清除上次的编译过的文件
+task clearPj(type: Delete) {
+    delete 'build', 'target'
+}
+task copyJar(type: Copy) {
+    from configurations.runtime
+    into('build/libs/libs')
+}
+//把JAR复制到目标目录
+task release(type: Copy, dependsOn: [build, copyJar]) {
 }
