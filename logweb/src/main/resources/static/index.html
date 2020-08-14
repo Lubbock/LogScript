@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件水印demo演示</title>
+    <!--    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="./css/bootstrap.css">
+    <script src="./js/jquery.js"></script>
+    <script src="./js/bootstrap.js"></script>
+
+</head>
+<body>
+
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active">
+        <a href="#home" data-toggle="tab">
+            文件水印
+        </a>
+    </li>
+    <li><a href="#imagehide" data-toggle="tab">图片暗水印</a></li>
+    <li><a href="#tracehide" data-toggle="tab">溯源</a></li>
+
+</ul>
+<div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade in active" id="home">
+        <div class="container" style="margin-top: 15px">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="btn btn-danger clearCache">上传缓存文件删除</div>
+                    <ul class="list-group cacheFileInfo">
+                    </ul>
+                    <div class="btn btn-danger clearTrace">溯源缓存文件删除</div>
+                    <ul class="list-group fileinfo">
+                    </ul>
+                </div>
+                <div class="col-sm-9">
+                    <form role="form" id="tform">
+                        <div class="form-group">
+                            <label class="sr-only" for="inputfile">文件输入</label>
+                            <input type="file" id="inputfile">
+                        </div>
+                        <div class="form-group">
+                            <div class="btn btn-default" id="start">上传文件</div>
+                        </div>
+                        <div class="alert alert-success" id="token">-- 有效token</div>
+                        <div class="form-group">
+                            <label class="sr-only" for="waterMark">名称</label>
+                            <input type="text" class="form-control" id="waterMark" placeholder="水印密钥支持 0-8,最大20位密钥">
+                        </div>
+                        <div class="form-group">
+                            <div class="btn btn-default" id="randomgenerate">随机生成密钥</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="filetoken">上传文件得token</label>
+                            <input type="text" class="form-control" id="filetoken" placeholder="上传文件得token">
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="suncheck">明水印
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="nightcheck">暗水印
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="btn btn-default" id="startWaterMark">开始水印</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="btn btn-default" id="startTrace">开始溯源</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="alert alert-success" id="workResult">-- 执行结果</div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="filetoken2" placeholder="上传文件得token">
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="btn btn-default" id="downloadFile">下载文件</div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="imagehide">
+        <div class="container" style="margin-top: 15px">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="btn btn-danger clearImgCache">上传缓存文件删除</div>
+                    <ul class="list-group cacheImgInfo">
+                    </ul>
+                    <div class="btn btn-danger clearImgTrace">溯源缓存文件删除</div>
+                    <ul class="list-group imginfo">
+                    </ul>
+                </div>
+                <div class="col-sm-9">
+                    <div class="form-group">
+                        <label class="sr-only" for="inputfile2">文件输入</label>
+                        <input type="file" id="inputfile2">
+                    </div>
+                    <div class="form-group">
+                        <div class="btn btn-default" id="start2">上传图片</div>
+                    </div>
+                    <div class="alert alert-success" id="token2">-- 有效token</div>
+                    <div class="form-group">
+                        <label class="sr-only" for="waterMark2">名称</label>
+                        <input type="text" class="form-control" id="waterMark2" placeholder="图片暗水印写入文字">
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="filetoken3">上传图片得token</label>
+                        <input type="text" class="form-control" id="filetoken3" placeholder="图片得token">
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="btn btn-default" id="startWaterMark2">开始水印</div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="btn btn-default" id="startTrace2">图片直接溯源</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-success" id="imgWorkResult">-- 执行结果</div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <p>原图</p>
+                            <img id="yuan" src="..." alt="..." class=" img-thumbnail img-responsive">
+                        </div>
+                        <div class="col-sm-4">
+                            <p>明水印</p>
+                            <img id="sun" src="..." alt="..." class=" rounded float-lef img-responsive">
+                        </div>
+                        <div class="col-sm-4">
+                            <p>暗水印</p>
+                            <img id="night" src="..." alt="..." class="rounded float-lef img-responsive">
+                        </div>
+
+                        <div class="col-sm-4">
+                            <p>傅里叶变换</p>
+                            <img id="fly" src="..." alt="..." class="rounded float-lef img-responsive">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="tracehide">
+        <div class="container" style="margin-top: 15px">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="btn btn-danger clearCache">上传缓存文件删除</div>
+                    <ul class="list-group cacheFileInfo">
+                    </ul>
+                    <div class="btn btn-danger clearTrace">溯源缓存文件删除</div>
+                    <ul class="list-group fileinfo">
+                    </ul>
+                </div>
+                <div class="col-sm-9">
+                    <div class="form-group">
+                        <label class="sr-only" for="inputTraceFile">文件输入</label>
+                        <input type="file" id="inputTraceFile">
+                    </div>
+                    <div class="form-group">
+                        <div class="btn btn-default" id="uploadTraceFile">上传文件</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="filetoken4">上传溯源文件得token</label>
+                        <input type="text" class="form-control" id="filetoken4" placeholder="上传溯源文件得token">
+                    </div>
+                    <div class="form-group">
+                        <div class="btn btn-default" id="startDirectTrace">开始溯源</div>
+                    </div>
+                    <div class="alert alert-success" id="traceWorkResult">-- 执行结果</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<script src="./js/bootstrap.js"></script>-->
+<!--<script src="./js/pekeUpload.js"></script>-->
+<script>
+    // $(document).ready(function () {
+    //     function randomNum(minNum, maxNum) {
+    //         switch (arguments.length) {
+    //             case 1:
+    //                 return parseInt(Math.random() * minNum + 1, 10);
+    //                 break;
+    //             case 2:
+    //                 return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+    //                 break;
+    //             default:
+    //                 return 0;
+    //                 break;
+    //         }
+    //     }
+    //
+    //     $('#start').click(function () {
+    //         var files = $("#inputfile").prop('files');
+    //         // console.log(files)
+    //         var data = new FormData();
+    //         data.append('avatar', files[0]);
+    //         $.ajax({
+    //             url: "/file/upload",
+    //             type: "post",
+    //             data: data,
+    //             processData: false,
+    //             contentType: false,
+    //             success: function (data) {
+    //                 // alert(data)
+    //                 $('#token').text(data)
+    //                 $('#filetoken').val(data);
+    //                 $('#filetoken2').val(data);
+    //                 $('.cacheFileInfo').append("<li class=\"list-group-item list-group-item-info\">" + data + "</li>\n");
+    //             }
+    //         });
+    //     });
+    //
+    //     //开始水印
+    //     $("#startWaterMark").click(function () {
+    //         $('#workResult').text("-- 开始水印");
+    //         var wm = $("#waterMark").val();
+    //         var filetoken = $("#filetoken").val();
+    //         var suncheck = $("#suncheck").prop("checked")
+    //         var nightcheck = $("#nightcheck").prop("checked")
+    //
+    //         console.log("----");
+    //         console.log(suncheck)
+    //         if (!suncheck) {
+    //             if (wm == null || wm == "") {
+    //                 alert("添加密钥");
+    //                 $('#workResult').text("-- 添加密钥");
+    //                 return
+    //             }
+    //         }
+    //
+    //         $.ajax({
+    //             url: '/demo/watermark',
+    //             data: JSON.stringify({
+    //                 filetoken: filetoken,
+    //                 wm: wm,
+    //                 suncheck: suncheck,
+    //                 nightcheck: nightcheck
+    //             }),
+    //             type: 'post',
+    //             cache: false,
+    //             dataType: 'json',
+    //             contentType: 'application/json',
+    //             success: function (data) {
+    //                 console.log(data);
+    //                 if (data == 1 || data == "1") {
+    //                     $('#workResult').text("-- 执行结果成功");
+    //                 } else {
+    //                     $('#workResult').text("-- 执行结果失败");
+    //                 }
+    //             }
+    //         });
+    //     })
+    //
+    //     $('#downloadFile').click(function () {
+    //         var filetoken = $("#filetoken2").val();
+    //         window.open("/file/download?token=" + filetoken);
+    //     });
+    //     //开始溯源
+    //     $("#startTrace").click(function () {
+    //
+    //         var filetoken = $("#filetoken").val();
+    //         $('#workResult').text("-- 开始溯源 ");
+    //         $.ajax({
+    //             url: '/demo/trace',
+    //             data: JSON.stringify({
+    //                 filetoken: filetoken,
+    //             }),
+    //             type: 'post',
+    //             cache: false,
+    //             dataType: 'json',
+    //             contentType: 'application/json',
+    //             success: function (data) {
+    //                 $('#workResult').text("-- 执行结果成功 " + JSON.stringify(data));
+    //             }
+    //         })
+    //     })
+    //
+    //     $("#randomgenerate").click(function () {
+    //         rn = randomNum(0, 7) + "" + randomNum(0, 7) + randomNum(0, 7) + randomNum(0, 7) + "" + randomNum(0, 7)
+    //             + randomNum(0, 7) + randomNum(0, 7) + randomNum(0, 7) + "" + randomNum(0, 7) + randomNum(0, 7) +
+    //             randomNum(0, 7) + "" + randomNum(0, 7) + randomNum(0, 7) + randomNum(0, 7) + "" + randomNum(0, 7)
+    //             + randomNum(0, 7) + randomNum(0, 7) + randomNum(0, 7) + "" + randomNum(0, 7) + randomNum(0, 7)
+    //         ;
+    //         $('#waterMark').val(rn);
+    //     });
+    //
+    //     $.ajax({
+    //         url: '/cache/list',
+    //         type: 'post',
+    //         cache: false,
+    //         dataType: 'json',
+    //         contentType: 'application/json',
+    //         success: function (data) {
+    //             console.log(data);
+    //             for (var item in data) {
+    //                 $('.cacheFileInfo').append("<li class=\"list-group-item list-group-item-info\">" + data[item] + "</li>\n");
+    //             }
+    //             //
+    //         }
+    //     })
+    //
+    //     $.ajax({
+    //         url: '/trace/list',
+    //         type: 'post',
+    //         cache: false,
+    //         dataType: 'json',
+    //         contentType: 'application/json',
+    //         success: function (data) {
+    //             console.log(data);
+    //             for (var item in data) {
+    //                 $('.fileinfo').append("<li class=\"list-group-item list-group-item-info\">" + data[item] + "</li>\n");
+    //             }
+    //             //
+    //         }
+    //     })
+    //
+    //     $.ajax({
+    //         url: '/imagetrace/list',
+    //         type: 'post',
+    //         cache: false,
+    //         dataType: 'json',
+    //         contentType: 'application/json',
+    //         success: function (data) {
+    //             console.log(data);
+    //             for (var item in data) {
+    //                 $('.imginfo').append("<li class=\"list-group-item list-group-item-info\">" + data[item] + "</li>\n");
+    //             }
+    //         }
+    //     })
+    //     $.ajax({
+    //         url: '/imagecache/list',
+    //         type: 'post',
+    //         cache: false,
+    //         dataType: 'json',
+    //         contentType: 'application/json',
+    //         success: function (data) {
+    //             console.log(data);
+    //             for (var item in data) {
+    //                 $('.cacheImgInfo').append("<li class=\"list-group-item list-group-item-info\">" + data[item] + "</li>\n");
+    //             }
+    //         }
+    //     })
+    //
+    //     $('#start2').click(function () {
+    //         var files = $("#inputfile2").prop('files');
+    //         // console.log(files)
+    //         var data = new FormData();
+    //         data.append('avatar', files[0]);
+    //         $.ajax({
+    //             url: "/image/upload",
+    //             type: "post",
+    //             data: data,
+    //             processData: false,
+    //             contentType: false,
+    //             success: function (data) {
+    //                 // alert(data)
+    //                 $('#token2').text(data)
+    //                 $('#filetoken3').val(data);
+    //                 $('.cacheImgInfo').append("<li class=\"list-group-item list-group-item-info\">" + data + "</li>\n");
+    //             }
+    //         });
+    //     });
+    //
+    //
+    //     $('.clearImgCache').click(function () {
+    //         // /{filePath}/clear"
+    //         $.ajax({
+    //             url: "/imagecache/clear",
+    //             type: "post",
+    //             processData: false,
+    //             contentType: false,
+    //             success: function (data) {
+    //                 $('.cacheImgInfo').empty()
+    //             }
+    //         })
+    //     })
+    //
+    //     $('.clearImgTrace').click(function () {
+    //         // /{filePath}/clear"
+    //         $.ajax({
+    //             url: "/imagetrace/clear",
+    //             type: "post",
+    //             processData: false,
+    //             contentType: false,
+    //             success: function (data) {
+    //                 $('.imginfo').empty()
+    //             }
+    //         })
+    //     })
+    //
+    //     $('.clearTrace').click(function () {
+    //         // /{filePath}/clear"
+    //         $.ajax({
+    //             url: "/trace/clear",
+    //             type: "post",
+    //             processData: false,
+    //             contentType: false,
+    //             success: function (data) {
+    //                 $('.fileinfo').empty()
+    //             }
+    //         })
+    //     })
+    //     $('.clearCache').click(function () {
+    //         $.ajax({
+    //             url: "/cache/clear",
+    //             type: "post",
+    //             processData: false,
+    //             contentType: false,
+    //             success: function (data) {
+    //                 $(".cacheFileInfo").empty()
+    //             }
+    //         })
+    //     })
+    //
+    //
+    //     $('#uploadTraceFile').click(function () {
+    //         var files = $("#inputTraceFile").prop('files');
+    //         // console.log(files)
+    //         var data = new FormData();
+    //         data.append('avatar', files[0]);
+    //         $.ajax({
+    //             url: "/trace/upload",
+    //             type: "post",
+    //             data: data,
+    //             processData: false,
+    //             contentType: false,
+    //             success: function (data) {
+    //                 // alert(data)
+    //                 $('#traceWorkResult').text(data)
+    //                 $('#filetoken4').val(data);
+    //                 // $('#filetoken2').val(data);
+    //                 $('.fileinfo').append("<li class=\"list-group-item list-group-item-info\">" + data + "</li>\n");
+    //             }
+    //         });
+    //     });
+    //
+    //     //开始溯源
+    //     $("#startDirectTrace").click(function () {
+    //
+    //         var filetoken = $("#filetoken4").val();
+    //         $('#traceWorkResult').text("-- 开始溯源 ");
+    //         $.ajax({
+    //             url: '/demo/trace',
+    //             data: JSON.stringify({
+    //                 filetoken: filetoken,
+    //             }),
+    //             type: 'post',
+    //             cache: false,
+    //             dataType: 'json',
+    //             contentType: 'application/json',
+    //             success: function (data) {
+    //                 $('#traceWorkResult').text("-- 执行结果成功 " + JSON.stringify(data));
+    //             }
+    //         })
+    //     })
+    //
+    //     //开始水印
+    //     $("#startWaterMark2").click(function () {
+    //         $('#imgWorkResult').text("-- 开始图片水印");
+    //         var wm = $("#waterMark2").val();
+    //         var filetoken = $("#filetoken3").val();
+    //         var suncheck = $("#imgSuncheck").prop("checked")
+    //         var nightcheck = $("#imgNightcheck").prop("checked")
+    //
+    //         if (wm == null || wm == "") {
+    //             alert("添加密钥");
+    //             $('#imgWorkResult').text("-- 添加密钥");
+    //             return
+    //         }
+    //
+    //         $.ajax({
+    //             url: '/demo/img/watermark',
+    //             data: JSON.stringify({
+    //                 filetoken: filetoken,
+    //                 wm: wm,
+    //                 suncheck: suncheck,
+    //                 nightcheck: nightcheck
+    //             }),
+    //             type: 'post',
+    //             cache: false,
+    //             dataType: 'json',
+    //             contentType: 'application/json',
+    //             success: function (data) {
+    //                 var token = data["token"]
+    //                 $('#imgWorkResult').text("-- " + token);
+    //
+    //                 $("#yuan").attr("src", "/image/show/" + token + "/yuan");
+    //
+    //                 $("#sun").attr("src", "/image/show/" + token + "/sun");
+    //
+    //                 $("#night").attr("src", "/image/show/" + token + "/mask");
+    //
+    //                 $("#fly").attr("src", "/image/show/" + token + "/trace");
+    //
+    //             }
+    //         });
+    //     })
+    //     $("#startTrace2").click(function () {
+    //         var token = $("#filetoken3").val();
+    //         $.ajax({
+    //             url: '/demo/img/trace',
+    //             data: JSON.stringify({
+    //                 filetoken: token,
+    //             }),
+    //             type: 'post',
+    //             cache: false,
+    //             dataType: 'json',
+    //             contentType: 'application/json',
+    //             success: function (data) {
+    //                 var token = data["token"]
+    //                 $('#imgWorkResult').text("-- " + token);
+    //                 $("#yuan").attr("src", "/image/show/" + token + "/yuan");
+    //                 $("#sun").attr("src", "/image/show/" + token + "/sun");
+    //                 $("#night").attr("src", "/image/show/" + token + "/mask");
+    //                 $("#fly").attr("src", "/image/show/" + token + "/trace");
+    //             }
+    //         });
+    //     })
+    //
+    //     $("img").click(function () {
+    //         var src = $(this).attr("src");
+    //         window.open(src)
+    //     })
+    //
+    // });
+
+</script>
+</body>
+</html>
