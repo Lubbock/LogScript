@@ -1,3 +1,5 @@
 rootProject.name = 'LogScript'
 include 'logbase'
 include 'logweb'
+include 'JAnalyze'
+
