@@ -15,6 +15,7 @@ class SLogList {
         threadLocalLog.set(new SLog());
     }
 
+    //todo  数据量太大，simHash不支持，还要来个布隆过滤器
     public static void collect(boolean b, String line, LogPlugin lp) {
         int sort = 1;
         if (b && threadLocalLog.get().hasElement()) {

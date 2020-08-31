@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class LogInvoke {
     public static String invoke(Client client, String fp) throws Exception {
-        DDMPlugin ddmPlugin = new DDMPlugin();
+        NohupPlugin ddmPlugin = new NohupPlugin();
         try (
                 InputStream inputStream = client.get(fp);
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -63,7 +63,7 @@ public class LogInvoke {
             }
         }
         try {
-            saveAnalyResult("D:\\code\\LogScript\\logbase\\src\\main\\resources\\holmes.2020-01-14.0.analy.log", mslogs.values());
+            saveAnalyResult("E:\\github\\LogScript\\logbase\\src\\main\\resources\\nohup.analy.out", mslogs.values());
         } catch (Exception e) {
             e.printStackTrace();
         }
