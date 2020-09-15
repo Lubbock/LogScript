@@ -21,7 +21,7 @@ class SLogList {
         if (b && threadLocalLog.get().hasElement()) {
             List<SLog> sLogs = threadLocalLogs.get();
             SLog temp = threadLocalLog.get();
-            boolean isAccept = temp.calcSimHash(lp);
+            boolean isAccept = temp.acceptLog(lp);
             if (isAccept) {
                 sLogs.add(temp);
             }
@@ -34,7 +34,7 @@ class SLogList {
 
     public static List<SLog> endCollect(LogPlugin lp) {
         SLog e = threadLocalLog.get();
-        boolean isAccept = e.calcSimHash(lp);
+        boolean isAccept = e.acceptLog(lp);
         if (isAccept) {
             threadLocalLogs.get().add(e);
         }
