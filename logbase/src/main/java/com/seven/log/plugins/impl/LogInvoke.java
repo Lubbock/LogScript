@@ -16,12 +16,12 @@ public class LogInvoke {
         try (
                 InputStream inputStream = client.get(fp);
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        ){
+        ) {
             String str = null;
             while ((str = bufferedReader.readLine()) != null) {
                 LogCollect.collect(str, ddmPlugin);
             }
-        }finally {
+        } finally {
             client.close();
         }
         List<SLog> sLogs = LogCollect.endCollect(ddmPlugin);
@@ -50,24 +50,22 @@ public class LogInvoke {
      * <p>长得像数据去除</p>
      **/
     public static void analSlog(List<SLog> sLogs, LogPlugin lp) {
-        Multimap<String, SLog> mslogs = HashMultimap.create();
-        System.out.println("============start analyies " + sLogs.size());
+        List<SLog> slogs = new ArrayList<>();
         for (SLog item : sLogs) {
-            SimHashService simHash = item.getSimHash();
             try {
                 if (lp.isSaveLog(item)) {
-                    mslogs.put(simHash.strSimHash, item);
+                    slogs.add(item);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         try {
-            saveAnalyResult("E:\\github\\LogScript\\logbase\\src\\main\\resources\\nohup.analy.out", mslogs.values());
+            saveAnalyResult("E:\\github\\LogScript\\logbase\\src\\main\\resources\\nohup.analy.out", slogs);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("============after analyies " + mslogs.asMap().keySet().size());
+        System.out.println("============after analyies " + sLogs.size());
     }
 
     public static boolean hasAccept(SLog sLog) {

@@ -1,5 +1,6 @@
 package com.seven.log.plugins.impl;
 
+import com.seven.log.calc.BloomFilterService;
 import com.seven.log.calc.SimHashService;
 import com.seven.log.plugins.LogPlugin;
 import lombok.Data;
@@ -11,8 +12,6 @@ import java.util.List;
 public class SLog {
     private List<String> lines = new ArrayList<>(20);
 
-    private SimHashService simHash = null;
-
     private int sort = 0;
 
     public void addLine(String line) {
@@ -23,7 +22,7 @@ public class SLog {
         return lines.size() > 0;
     }
 
-    public boolean calcSimHash(LogPlugin lp) {
+    public boolean acceptLog(LogPlugin lp) {
         StringBuilder sb = new StringBuilder();
         int i = 0;
         boolean isAccept = false;
@@ -38,12 +37,15 @@ public class SLog {
             }
             i++;
             sb.append(line);
+            if (sb.length() > 2048) {
+                isAccept = false;
+            }
         }
-        if (!isAccept) {
-            return false;
+        if (isAccept) {
+            boolean isPresent = BloomFilterService.getInstance().putIfNotPresent(sb.toString());
+            lines.set(0, lp.transform(lines.get(0)));
+            return !isPresent;
         }
-        lines.set(0, lp.transform(lines.get(0)));
-        simHash = new SimHashService(sb.toString(), 64);
-        return true;
+        return isAccept;
     }
 }

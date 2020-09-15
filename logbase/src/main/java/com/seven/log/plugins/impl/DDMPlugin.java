@@ -22,20 +22,6 @@ public class DDMPlugin implements LogPlugin {
 
     @Override
     public boolean isSaveLog(SLog log) {
-        String strSimHash = log.getSimHash().strSimHash;
-        boolean isTextCopy = false;
-        for (String simhash : simhashs) {
-            int distance = SimHashService.getDistance(strSimHash, simhash);
-            if (distance < 8) {
-                // 文本距离小于10 认为是相文本
-                isTextCopy = true;
-                break;
-            }
-        }
-        if (isTextCopy) {
-            return false;
-        }
-        simhashs.add(strSimHash);
         String s = log.getLines().get(0);
         if (StringUtils.contains(s, "notifySql")) {
             return true;
