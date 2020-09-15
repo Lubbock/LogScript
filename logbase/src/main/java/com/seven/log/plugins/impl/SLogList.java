@@ -6,38 +6,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 class SLogList {
-    static ThreadLocal<List<SLog>> threadLocalLogs = new ThreadLocal<>();
+    static ThreadLocal<List<SLog>> slogs = new ThreadLocal<>();
 
-    static ThreadLocal<SLog> threadLocalLog = new ThreadLocal<>();
+    static ThreadLocal<SLog> slog = new ThreadLocal<>();
 
     static {
-        threadLocalLogs.set(new ArrayList<>(20));
-        threadLocalLog.set(new SLog());
+        slogs.set(new ArrayList<>(20));
+        slog.set(new SLog());
     }
 
     //todo  数据量太大，simHash不支持，还要来个布隆过滤器
     public static void collect(boolean b, String line, LogPlugin lp) {
         int sort = 1;
-        if (b && threadLocalLog.get().hasElement()) {
-            List<SLog> sLogs = threadLocalLogs.get();
-            SLog temp = threadLocalLog.get();
+        if (b && slog.get().hasElement()) {
+            List<SLog> sLogs = slogs.get();
+            SLog temp = slog.get();
             boolean isAccept = temp.acceptLog(lp);
             if (isAccept) {
                 sLogs.add(temp);
             }
             SLog item = new SLog();
-            item.setSort(sort++);
-            threadLocalLog.set(item);
+            item.setSort(sort);
+            sort += 1;
+            slog.set(item);
         }
-        threadLocalLog.get().addLine(line);
+        slog.get().addLine(line);
     }
 
     public static List<SLog> endCollect(LogPlugin lp) {
-        SLog e = threadLocalLog.get();
+        SLog e = slog.get();
         boolean isAccept = e.acceptLog(lp);
         if (isAccept) {
-            threadLocalLogs.get().add(e);
+            slogs.get().add(e);
         }
-        return threadLocalLogs.get();
+        return slogs.get();
     }
 }
